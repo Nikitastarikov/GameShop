@@ -8,9 +8,10 @@ namespace GameShop
         #region Fields
 
         [SerializeField] private List<GameObject> _goodsPrefabs;
-        private Transform _goodsBar;
+        private List<GameObject> _purchaseMethodsPrefab;
         private List<Product> _goods;
-        private ShopView _shopView;
+        private GameObject _productViewPrefab;
+        private Transform _goodsBar;
         private Vector3 _startPos;
         private float _distanceBetweenGoods;
         private int _count;
@@ -27,8 +28,17 @@ namespace GameShop
             _goods = new List<Product>();
             _startPos = new Vector3(0f, 0f, 0f);
             _distanceBetweenGoods = 10f;
-
             ProductionCubes();
+            CreatePurchaseMethods();
+            SelectProduct(0);
+            
+            foreach (var purchaseMethodOb in _purchaseMethodsPrefab)
+            {
+                if (purchaseMethodOb.TryGetComponent(out IPurchaseMethodInterface purchaseMethod))
+                {
+                    GameInstance.Instance.WalletController.AddMoney(purchaseMethod.GetNameCurrency(), 50);
+                }
+            }
         }
 
         private void ProductionCubes()
@@ -48,6 +58,40 @@ namespace GameShop
             IProductModelInterface productModel = factory.FactoryMethod(name, price);
             product.SetModel(productModel);
             product.CreateProductGameOb(productOb, _goodsBar, pos);
+            product.CreateProductGameObUI(_productViewPrefab, transform);
+        }
+
+        private void CreatePurchaseMethods()
+        {
+            foreach (var product in _goods)
+            {
+                product.GetView()
+                    .CreatePurchaseMethods(_purchaseMethodsPrefab, product.GetModel());
+            }
+        }
+
+        private void SelectProduct(int index)
+        {
+            for (int i = 0; i < _goods.Count; i++)
+            {
+                if (i != index)
+                    _goods[i].GetView().
+                        SetActive(false);
+            }
+
+            _goods[index].GetView().
+                SetActive(true);
+        }
+
+        public void SetListMethodsPurchasePrefab(List<GameObject> listMethodsPurchasePrefab)
+        {
+            _purchaseMethodsPrefab = new List<GameObject>(listMethodsPurchasePrefab);
+            
+        }
+
+        public void SetProductView(GameObject productViewPrefab)
+        {
+            _productViewPrefab = productViewPrefab;
         }
 
         public void SetTransformGoodsBar(Transform goodsBar)
@@ -58,11 +102,13 @@ namespace GameShop
         public void IncrementCount()
         {
             _count++;
+            SelectProduct(_count);
         }
 
         public void DecrementCount()
         {
             _count--;
+            SelectProduct(_count);
         }
     }
 }

@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine.UI;
 
-public class IPurchaseMethodInterface : MonoBehaviour
+namespace GameShop
 {
-    // Start is called before the first frame update
-    void Start()
+    public interface IPurchaseMethodInterface
     {
-        
-    }
+        public bool Purchase(IProductModelInterface product);
+        public string GetNameCurrency();
+        public void ConverterCurrency(int money);
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public Button GetPurchaseButton();
+        public void UnsubscribeAll();
     }
 }

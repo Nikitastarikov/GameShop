@@ -631,8 +631,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d3e643b0db1d04f9fbbe9bf2fd016b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShopController: {fileID: 2419490149618255036, guid: 2af2625903a568e43a2326ae4efa40a5, type: 3}
-  StorageControllerOb: {fileID: 2838206412348230318, guid: e19a0880c4219ab43ad71cb0e4a67836, type: 3}
+  _listMethodsPurchasePrefabs:
+  - {fileID: 8947035379549768209, guid: 745dc342b41cdbf418bb624227637ec4, type: 3}
+  CameraController: {fileID: 963194229}
+  ProductViewPrefab: {fileID: 7918833461935940765, guid: cfa86597fb7580f428089c1685bc1918, type: 3}
+  Shop: {fileID: 2419490149618255036, guid: 2af2625903a568e43a2326ae4efa40a5, type: 3}
+  GameInstanceOb: {fileID: 1869959202}
   Canvas: {fileID: 473846361}
   GoodsBar: {fileID: 570948787}
 --- !u!1 &878506129
@@ -822,6 +826,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9b5b44e482c0c76489d55acbf84f85b3, type: 3}
+--- !u!1 &1869959202 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3892523804889295558, guid: 9b5b44e482c0c76489d55acbf84f85b3, type: 3}
+  m_PrefabInstance: {fileID: 1869959201}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1878320921
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,27 +5,27 @@ namespace GameShop
     public class ProductModelCube : IProductModelInterface
     {
         #region Fields
-        public GameObject _cubeOb;
-        public int Price { get; private set; }
-        public string Name { get; private set; }
+        private GameObject _cubeOb;
+        private string _name;
+        private int _price;
         public event IProductModelInterface.ProductHandler ItemPurchased;
-
         #endregion
 
         public ProductModelCube(string name, int price)
         {
-            Name = name;
-            Price = price;
+            _name = name;
+            _price = price;
         }
 
-        public void SetProductOb(GameObject product)
-        {
-            _cubeOb = product;
-        }
+        public void SetProductOb(GameObject product) => _cubeOb = product;
+
+        public int GetPrice() => _price;
+
+        public string GetName() => _name;
 
         public void Purchase()
         {
-            ItemPurchased?.Invoke(true);
+            ItemPurchased.Invoke(true);
         }
     }
 }
