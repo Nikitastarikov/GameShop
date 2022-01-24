@@ -3,17 +3,17 @@ using UnityEngine.UI;
 
 namespace GameShop
 {
-    public class BuyingForMoney : MonoBehaviour, IPurchaseMethodInterface
+    public class ByingForRubles : MonoBehaviour, IPurchaseMethodInterface
     {
         [SerializeField] private Button _purchaseButton;
         [SerializeField] private Text _info;
         private string _name;
 
-        public BuyingForMoney()
+        public ByingForRubles()
         {
-            _name = "Coins";
+            _name = "Rubles";
         }
-        
+
         public bool Purchase(IProductModelInterface product)
         {
             int _money = GameInstance.Instance.WalletController.GetMoney(_name);

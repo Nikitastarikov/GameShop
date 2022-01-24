@@ -783,11 +783,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d3e643b0db1d04f9fbbe9bf2fd016b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _listMethodsPurchasePrefabs:
-  - {fileID: 8947035379549768209, guid: 745dc342b41cdbf418bb624227637ec4, type: 3}
+  MethodsPurchasePrefabsList:
+  - {fileID: 3838241493735727647, guid: fe1aaf2f39b065742a93af4aaaf131cc, type: 3}
+  - {fileID: 8992185315103061943, guid: 36386ce6ade7ebd42b15c601ad9135b8, type: 3}
+  ProductViewPrefabList:
+  - {fileID: 8635674738626335774, guid: 9c74622bda77c7646b5af7de53604977, type: 3}
+  - {fileID: 8635674738626335774, guid: e89bb9e976f9b91488a76434d4b2823d, type: 3}
   CameraController: {fileID: 963194229}
-  CurrencyViewPrefab: {fileID: 1300582772558422105, guid: e418ba0f69fdb734a8bdb68a224dea0a, type: 3}
-  ProductViewPrefab: {fileID: 8635674738626335774, guid: 9c74622bda77c7646b5af7de53604977, type: 3}
+  CurrencyViewPrefab: {fileID: 7872982982328977241, guid: 39614de1c41b53c4d8b58ff982bbc2a7, type: 3}
   Shop: {fileID: 2419490149618255036, guid: 2af2625903a568e43a2326ae4efa40a5, type: 3}
   GameInstanceOb: {fileID: 1869959202}
   Canvas: {fileID: 473846361}
@@ -923,36 +926,6 @@ MonoBehaviour:
   _nextItemButton: {fileID: 422052195}
   _previousItemButton: {fileID: 476449795}
   _shop: {fileID: 0}
---- !u!1 &1731343857
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1731343858}
-  m_Layer: 0
-  m_Name: GoodsBar (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1731343858
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1731343857}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1869959201
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1026,6 +999,8 @@ GameObject:
   - component: {fileID: 1878320922}
   - component: {fileID: 1878320924}
   - component: {fileID: 1878320923}
+  - component: {fileID: 1878320926}
+  - component: {fileID: 1878320925}
   m_Layer: 5
   m_Name: MoneyBar
   m_TagString: Untagged
@@ -1050,7 +1025,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -71, y: -71.075}
-  m_SizeDelta: {x: 336.83276, y: 174.80078}
+  m_SizeDelta: {x: 336.83276, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1878320923
 MonoBehaviour:
@@ -1090,6 +1065,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1878320921}
   m_CullTransparentMesh: 1
+--- !u!114 &1878320925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878320921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
+--- !u!114 &1878320926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1878320921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 0
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &2030575735
 GameObject:
   m_ObjectHideFlags: 0

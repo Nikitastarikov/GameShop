@@ -81,6 +81,7 @@ namespace GameShop
             foreach (var money in _money)
             {
                 arrayStr[i] = money.Key;
+                i++;
             }
 
             for (i = 0; i < _money.Count; i++)
