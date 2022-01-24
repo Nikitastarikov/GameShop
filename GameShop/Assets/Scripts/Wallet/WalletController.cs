@@ -10,6 +10,7 @@ namespace GameShop
         private WalletView _walletView = new WalletView();
         private Dictionary<string, int> _money;
 
+        public Dictionary<string, int> Money => _money;
         public WalletController()
         {
             _money = new Dictionary<string, int>();
