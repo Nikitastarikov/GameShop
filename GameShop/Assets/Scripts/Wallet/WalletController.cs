@@ -48,12 +48,12 @@ namespace GameShop
             if (_money.ContainsKey(name))
             {
                 _money[name] -= amount;
+                GameInstance.Instance.NotificationController.ShowNotification("Successful purchase");
                 _walletView.GetCurrencyViewList()[name].SetMoney(_money[name]);
                 SavingData();
-                Debug.Log(name + " = " + _money[name]);
             }
             else
-                Debug.Log("This currency has not been added");
+                GameInstance.Instance.NotificationController.ShowNotification("Not enough " + name);
         }
 
         public int GetMoney(string name)

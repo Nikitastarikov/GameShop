@@ -8,6 +8,7 @@ public class MainInstaller : MonoInstaller
     public List<GameObject> MethodsPurchasePrefabsList;
     public List<GameObject> ProductViewPrefabList;
     public CameraController CameraController;
+    public GameObject NotificationBar;
     public GameObject CurrencyViewPrefab;
     public GameObject Shop;
     public GameObject GameInstanceOb;
@@ -21,6 +22,18 @@ public class MainInstaller : MonoInstaller
         BindStorageController();
         BindWalletController();
         BindCameraController();
+        BindNotificationController();
+    }
+
+    private void BindNotificationController()
+    {
+        NotificationController notificationController = new NotificationController();
+        notificationController.SetNotificationBar(NotificationBar);
+
+        Container
+            .Bind<NotificationController>()
+            .FromInstance(notificationController)
+            .AsSingle();
     }
 
     private void BindCameraController()
