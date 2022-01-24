@@ -5,12 +5,14 @@ using System.Collections.Generic;
 
 public class MainInstaller : MonoInstaller
 {
-    public List<GameObject> _listMethodsPurchasePrefabs;
+    public List<GameObject> MethodsPurchasePrefabsList;
+    public List<GameObject> ProductViewPrefabList;
     public CameraController CameraController;
-    public GameObject ProductViewPrefab;
+    public GameObject CurrencyViewPrefab;
     public GameObject Shop;
     public GameObject GameInstanceOb;
     public Transform Canvas;
+    public Transform MoneyBar;
     public Transform GoodsBar;
 
     public override void InstallBindings()
@@ -32,6 +34,8 @@ public class MainInstaller : MonoInstaller
     {
         WalletController walletController = GameInstanceOb.GetComponent<WalletController>();
 
+        walletController.SetMoneyBar(CurrencyViewPrefab, MoneyBar);
+
         Container
             .Bind<WalletController>()
             .FromInstance(walletController)
@@ -40,10 +44,10 @@ public class MainInstaller : MonoInstaller
 
     private void BindStorageController()
     {
-        StorageController strorageController = GameInstanceOb.GetComponent<StorageController>();
+        StorageControllerAntyhack strorageController = GameInstanceOb.GetComponent<StorageControllerAntyhack>();
 
         Container
-            .Bind<StorageController>()
+            .Bind<StorageControllerAntyhack>()
             .FromInstance(strorageController)
             .AsSingle();
     }
@@ -53,8 +57,8 @@ public class MainInstaller : MonoInstaller
         ShopController shopController = Container
             .InstantiatePrefabForComponent<ShopController>(Shop, Canvas);
 
-        shopController.SetProductView(ProductViewPrefab);
-        shopController.SetListMethodsPurchasePrefab(_listMethodsPurchasePrefabs);
+        shopController.SetProductView(ProductViewPrefabList);
+        shopController.SetListMethodsPurchasePrefab(MethodsPurchasePrefabsList);
         shopController.SetTransformGoodsBar(GoodsBar);
 
         Container

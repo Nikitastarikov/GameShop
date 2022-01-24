@@ -13,7 +13,7 @@ namespace GameShop
         public override void CreateProductGameObUI(GameObject productObUI, Transform parent)
         {
             var cubeUI = MonoBehaviour.Instantiate(productObUI, parent);
-            Setview(cubeUI.GetComponent<ProductViewCube>());
+            Setview(cubeUI.GetComponent<IProductViewInterface>());
             _productView.SetProductObUI(cubeUI);
         }
     }

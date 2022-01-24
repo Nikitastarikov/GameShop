@@ -1,10 +1,10 @@
 ﻿namespace GameShop
 {
-    public class FactoryCube : IFactoryInterface
+    public class FactoryTemporaryItem : IFactoryInterface
     {
         public IProductModelInterface FactoryMethod(string name, int price, int time)
         {
-            return new ProductModelCube(name, price);
+            return new ProductModelTemporaryItem(name, price, time);
         }
     }
 }

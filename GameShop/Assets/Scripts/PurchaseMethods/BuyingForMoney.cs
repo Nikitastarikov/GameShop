@@ -6,7 +6,7 @@ namespace GameShop
     public class BuyingForMoney : MonoBehaviour, IPurchaseMethodInterface
     {
         [SerializeField] private Button _purchaseButton;
-        [SerializeField] private Text _price;
+        [SerializeField] private Text _info;
         private string _name;
 
         public BuyingForMoney()
@@ -27,17 +27,23 @@ namespace GameShop
             return false;
         }
 
+        public Text GetPrice() => _info;
         public Button GetPurchaseButton() => _purchaseButton;
         public string GetNameCurrency() => _name;
 
         public void ConverterCurrency(int money)
         {
-            _price.text = money.ToString();
+            _info.text = money.ToString();
         }
 
-        public void UnsubscribeAll()
+        public void OnDestroy()
         {
             _purchaseButton.onClick.RemoveAllListeners();
+        }
+
+        public void SetInfoPurchase(string name, int price)
+        {
+            _info.text = "The " + name + " consts " + price + " " + _name;
         }
     }
 }

@@ -9,8 +9,8 @@ namespace GameShop
 
         [SerializeField] private List<GameObject> _goodsPrefabs;
         private List<GameObject> _purchaseMethodsPrefab;
+        private List<GameObject> _productViewPrefabList;
         private List<Product> _goods;
-        private GameObject _productViewPrefab;
         private Transform _goodsBar;
         private Vector3 _startPos;
         private float _distanceBetweenGoods;
@@ -29,6 +29,7 @@ namespace GameShop
             _startPos = new Vector3(0f, 0f, 0f);
             _distanceBetweenGoods = 10f;
             ProductionCubes();
+            TemporaryItem();
             CreatePurchaseMethods();
             SelectProduct(0);
             
@@ -36,9 +37,22 @@ namespace GameShop
             {
                 if (purchaseMethodOb.TryGetComponent(out IPurchaseMethodInterface purchaseMethod))
                 {
-                    GameInstance.Instance.WalletController.AddMoney(purchaseMethod.GetNameCurrency(), 50);
+                    GameInstance.Instance.WalletController.AddCurrency(purchaseMethod.GetNameCurrency(), 100);
                 }
             }
+            GameInstance.Instance.WalletController.LoadingData();
+        }
+
+        private void TemporaryItem()
+        {
+            FactoryTemporaryItem factoryTemporaryItem = new FactoryTemporaryItem();
+
+            ProductTemporaryItem item = new ProductTemporaryItem();
+
+            ProductionFacilities(item, factoryTemporaryItem, _goodsPrefabs[2], "Stars", 60
+                , new Vector3(_startPos.x + _distanceBetweenGoods * 2, _startPos.y, _startPos.z), 1, 60);
+
+            _goods.Add(item);
         }
 
         private void ProductionCubes()
@@ -47,18 +61,23 @@ namespace GameShop
 
             ProductCube cube = new ProductCube();
             ProductCube cubeTwo = new ProductCube();
-            ProductionFacilities(cube, factoryCube, _goodsPrefabs[0], "RedCube", 50, _startPos);
-            ProductionFacilities(cubeTwo, factoryCube, _goodsPrefabs[1], "BlueCube", 50, new Vector3(_startPos.x + _distanceBetweenGoods, _startPos.y, _startPos.z));
+
+            ProductionFacilities(cube, factoryCube, _goodsPrefabs[0], "RedCube", 50, _startPos, 0);
+            ProductionFacilities(cubeTwo, factoryCube, _goodsPrefabs[1], "BlueCube", 50
+                , new Vector3(_startPos.x + _distanceBetweenGoods, _startPos.y, _startPos.z), 0);
+
             _goods.Add(cube);
             _goods.Add(cubeTwo);
         }
 
-        private void ProductionFacilities(Product product, IFactoryInterface factory, GameObject productOb, string name, int price, Vector3 pos)
+        private void ProductionFacilities(Product product, IFactoryInterface factory
+            , GameObject productOb, string name
+            , int price, Vector3 pos, int indexView, int timeMin = 0)
         {
-            IProductModelInterface productModel = factory.FactoryMethod(name, price);
+            IProductModelInterface productModel = factory.FactoryMethod(name, price, timeMin);
             product.SetModel(productModel);
             product.CreateProductGameOb(productOb, _goodsBar, pos);
-            product.CreateProductGameObUI(_productViewPrefab, transform);
+            product.CreateProductGameObUI(_productViewPrefabList[indexView], transform);
         }
 
         private void CreatePurchaseMethods()
@@ -89,9 +108,9 @@ namespace GameShop
             
         }
 
-        public void SetProductView(GameObject productViewPrefab)
+        public void SetProductView(List<GameObject> productViewPrefabList)
         {
-            _productViewPrefab = productViewPrefab;
+            _productViewPrefabList = new List<GameObject>(productViewPrefabList);
         }
 
         public void SetTransformGoodsBar(Transform goodsBar)
