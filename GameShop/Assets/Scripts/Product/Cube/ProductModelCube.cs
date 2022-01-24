@@ -13,6 +13,7 @@ namespace GameShop
         public event IProductModelInterface.ProductHandler ItemPurchased;
         #endregion
 
+        #region PublicFunctions
         public ProductModelCube(string name, int price)
         {
             _info = "Обычный куб";
@@ -38,7 +39,9 @@ namespace GameShop
             SavingData();
             ItemPurchased.Invoke(this);
         }
+        #endregion
 
+        #region PubclicFunctions
         private void LoadingData()
         {
             _isPurchase = StorageControllerAntyhack.GetInt(_name, 0) == 1;
@@ -49,5 +52,6 @@ namespace GameShop
             int value = _isPurchase == true ? 1 : 0;
             StorageControllerAntyhack.SetInt(_name, value);
         }
+        #endregion
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class MainInstaller : MonoInstaller
 {
+    #region Fields
     public List<GameObject> MethodsPurchasePrefabsList;
     public List<GameObject> ProductViewPrefabList;
     public CameraController CameraController;
@@ -14,7 +15,9 @@ public class MainInstaller : MonoInstaller
     public Transform Canvas;
     public Transform MoneyBar;
     public Transform GoodsBar;
+    #endregion
 
+    #region PublicFunctions
     public override void InstallBindings()
     {
         BindShop();
@@ -22,6 +25,9 @@ public class MainInstaller : MonoInstaller
         BindWalletController();
         BindCameraController();
     }
+    #endregion
+
+    #region PrivateFunctions
 
     private void BindCameraController()
     {
@@ -66,4 +72,5 @@ public class MainInstaller : MonoInstaller
             .FromInstance(shopController)
             .AsSingle();
     }
+    #endregion
 }

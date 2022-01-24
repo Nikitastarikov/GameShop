@@ -5,10 +5,13 @@ namespace GameShop
 {
     public class ByingForRubles : MonoBehaviour, IPurchaseMethodInterface
     {
+        #region Fields
         [SerializeField] private Button _purchaseButton;
         [SerializeField] private Text _info;
         private string _name;
+        #endregion
 
+        #region PublicFunctions
         public ByingForRubles()
         {
             _name = "Rubles";
@@ -45,5 +48,6 @@ namespace GameShop
         {
             _info.text = "The " + name + " consts " + price + " " + _name;
         }
+        #endregion
     }
 }

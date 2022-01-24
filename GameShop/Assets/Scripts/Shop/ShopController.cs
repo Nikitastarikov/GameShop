@@ -22,6 +22,7 @@ namespace GameShop
 
         #endregion
 
+        #region PrivateFunctions
         private void Start()
         {
             _count = 0;
@@ -50,7 +51,7 @@ namespace GameShop
             ProductTemporaryItem item = new ProductTemporaryItem();
 
             ProductionFacilities(item, factoryTemporaryItem, _goodsPrefabs[2], "Stars", 60
-                , new Vector3(_startPos.x + _distanceBetweenGoods * 2, _startPos.y, _startPos.z), 1, 60);
+                , new Vector3(_startPos.x + _distanceBetweenGoods * 2, _startPos.y, _startPos.z), 1, 1);
 
             _goods.Add(item);
         }
@@ -101,7 +102,9 @@ namespace GameShop
             _goods[index].GetView().
                 SetActive(true);
         }
+        #endregion
 
+        #region PublicFunctions
         public void SetListMethodsPurchasePrefab(List<GameObject> listMethodsPurchasePrefab)
         {
             _purchaseMethodsPrefab = new List<GameObject>(listMethodsPurchasePrefab);
@@ -129,6 +132,7 @@ namespace GameShop
             _count--;
             SelectProduct(_count);
         }
+        #endregion
     }
 }
 

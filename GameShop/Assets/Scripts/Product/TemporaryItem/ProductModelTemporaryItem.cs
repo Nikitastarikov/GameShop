@@ -17,8 +17,11 @@ namespace GameShop
         public event IProductModelInterface.ProductHandler ItemPurchased;
         #endregion
 
+        #region PublicFunctions
         public ProductModelTemporaryItem(string name, int price, int timeMin)
         {
+            _secEndDate = 0;
+            _remainingTime = 0;
             _timeMin = timeMin;
             _info = "Temporary object, remaining time: ";
             _name = name;
@@ -37,11 +40,16 @@ namespace GameShop
             DateTime currentDate = DateTime.UtcNow.ToLocalTime();
             int sec = ConvertDateTimeToInt32(currentDate);
             _remainingTime = _secEndDate - sec;
-            int hours = _remainingTime / 3600;
-            int minutes = _remainingTime % 3600 / 60;
-            sec = _remainingTime % 3600 % 60;
-            Debug.Log(_info + " " + hours + ":" + minutes + ":" + sec);
-            return _info + " " + hours + ":" + minutes + ":" + sec;
+            if (_remainingTime > 0)
+            {
+                int hours = _remainingTime / 3600;
+                int minutes = _remainingTime % 3600 / 60;
+                sec = _remainingTime % 3600 % 60;
+                Debug.Log(_info + " " + hours + ":" + minutes + ":" + sec);
+                return _info + " " + hours + ":" + minutes + ":" + sec;
+            }
+            _isPurchase = false;
+            return "";
         }
         public void Purchase()
         {
@@ -53,6 +61,18 @@ namespace GameShop
         public void SetProductOb(GameObject product) => _ob = product;
         public void SetIsPurchase(bool switcher) => _isPurchase = switcher;
 
+        public static int ConvertDateTimeToInt32(DateTime dt)
+        {
+            return (int)(dt - new DateTime(2017, 1, 1)).TotalSeconds;
+        }
+
+        public static DateTime ConvertInt32ToDateTime(int i)
+        {
+            return new DateTime(2017, 1, 1).AddSeconds(i);
+        }
+        #endregion
+
+        #region PrivateFunctions
         private void LoadingData()
         {
             _isPurchase = StorageControllerAntyhack.GetInt(_name, 0) == 1;
@@ -63,13 +83,15 @@ namespace GameShop
                 _secEndDate = secEndDate;
                 DateTime currentDate = DateTime.UtcNow.ToLocalTime();
 
-                if (secEndDate == 0)
+                int sec = ConvertDateTimeToInt32(currentDate);
+                secEndDate -= sec;
+
+                if (secEndDate == 0 || secEndDate <= 0)
                 {
                     _isPurchase = false;
                     return;
                 }
-                int sec = ConvertDateTimeToInt32(currentDate);
-                secEndDate -= sec;
+
                 _remainingTime = secEndDate / 60;
             }
         }
@@ -84,17 +106,9 @@ namespace GameShop
             sec = ConvertDateTimeToInt32(startDate);
             sec += _timeMin * 60;
             _secEndDate = sec;
+            Debug.Log(_secEndDate);
             StorageControllerAntyhack.SetInt(_name + "EndTime", sec);
         }
-
-        public static int ConvertDateTimeToInt32(DateTime dt)
-        {
-            return (int)(dt - new DateTime(2017, 1, 1)).TotalSeconds;
-        }
-
-        public static DateTime ConvertInt32ToDateTime(int i)
-        {
-            return new DateTime(2017, 1, 1).AddSeconds(i);
-        }
+        #endregion
     }
 }

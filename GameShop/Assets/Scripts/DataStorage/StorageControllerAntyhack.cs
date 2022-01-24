@@ -6,7 +6,8 @@ namespace GameShop
 {
     public class StorageControllerAntyhack : MonoBehaviour
     {
-		public static void SetString(string key, string value)
+        #region PublicFunctions
+        public static void SetString(string key, string value)
 		{
 			CustomPlayerPrefs.SetString(MD5(key), Encrypt(value));
 		}
@@ -104,9 +105,11 @@ namespace GameShop
 		{
 			PlayerPrefs.Save();
 		}
+        #endregion
 
-		
-		private static string _secretkey = "CheckSum";
+        #region AntyHack
+
+        private static string _secretkey = "CheckSum";
 		private static byte[] _key = new byte[8] { 34, 21, 56, 12, 75, 13, 98, 12 };
 		private static byte[] _iv = new byte[8] { 44, 65, 26, 94, 51, 11, 23, 120 };
 
@@ -134,5 +137,6 @@ namespace GameShop
 			}
 			return hashString.PadLeft(32, '0');
 		}
-	}
+        #endregion
+    }
 }

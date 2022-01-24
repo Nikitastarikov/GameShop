@@ -7,13 +7,16 @@ namespace GameShop
 {
     public class ProductViewTemporaryItem : MonoBehaviour, IProductViewInterface
     {
+        #region Fields
         [SerializeField] private GameObject _isPurchase;
         [SerializeField] private Text _infoProduct;
         [SerializeField] private Transform _purchaseMethodsBar;
         private List<IPurchaseMethodInterface> _purchaseMethodsList;
         private IProductModelInterface _product;
         private GameObject _obUI;
+        #endregion
 
+        #region PublicFunctions
         public void CreatePurchaseMethods(List<GameObject> purchaseMethodsPrefabs, IProductModelInterface product)
         {
             _product = product;
@@ -61,7 +64,6 @@ namespace GameShop
             {       
                 _infoProduct.text = product.GetInfo();
                 yield return new WaitForSeconds(1);
-                Debug.Log("zbs");
             }
 
             _isPurchase.SetActive(false);
@@ -74,7 +76,9 @@ namespace GameShop
         {
             _obUI.SetActive(switcher);
         }
+        #endregion
 
+        #region PrivateFunctions
         private void OnEnable()
         {
             if (_product != null)
@@ -84,5 +88,6 @@ namespace GameShop
                 Show(_product);
             }
         }
+        #endregion
     }
 }

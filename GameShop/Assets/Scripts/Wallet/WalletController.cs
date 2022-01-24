@@ -5,12 +5,16 @@ namespace GameShop
 {
     public class WalletController : MonoBehaviour
     {
+        #region Fields
         private GameObject _currencyViewPrefab;
         private Transform _moneyBar;
         private WalletView _walletView = new WalletView();
         private Dictionary<string, int> _money;
 
         public Dictionary<string, int> Money => _money;
+        #endregion
+
+        #region PublicFunctions
         public WalletController()
         {
             _money = new Dictionary<string, int>();
@@ -103,5 +107,6 @@ namespace GameShop
                 Debug.Log("Save " + money.Key + " = " + money.Value);
             }
         }
+        #endregion
     }
 }
