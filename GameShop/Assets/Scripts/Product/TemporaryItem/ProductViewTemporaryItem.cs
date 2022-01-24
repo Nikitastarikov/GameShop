@@ -11,10 +11,12 @@ namespace GameShop
         [SerializeField] private Text _infoProduct;
         [SerializeField] private Transform _purchaseMethodsBar;
         private List<IPurchaseMethodInterface> _purchaseMethodsList;
+        private IProductModelInterface _product;
         private GameObject _obUI;
 
         public void CreatePurchaseMethods(List<GameObject> purchaseMethodsPrefabs, IProductModelInterface product)
         {
+            _product = product;
             if (!product.GetIsPurchase())
             {
                 _purchaseMethodsList = new List<IPurchaseMethodInterface>();
@@ -53,26 +55,17 @@ namespace GameShop
             StartCoroutine(CoroutineShow(product));
         }
 
-        private IEnumerator CoroutineShow(IProductModelInterface product)
+        public IEnumerator CoroutineShow(IProductModelInterface product)
         {
-            ShowInfoTemporaryItem(product);
-
-            yield return new WaitForSeconds(60);
-
-            ShowInfoTemporaryItem(product);
-        }
-
-        private void ShowInfoTemporaryItem(IProductModelInterface product)
-        {
-            if (product.GetIsPurchase())
-            {
+            while (product.GetIsPurchase())
+            {       
                 _infoProduct.text = product.GetInfo();
+                yield return new WaitForSeconds(1);
+                Debug.Log("zbs");
             }
-            else
-            {
-                _isPurchase.SetActive(false);
-                _purchaseMethodsBar.gameObject.SetActive(true);
-            }
+
+            _isPurchase.SetActive(false);
+            _purchaseMethodsBar.gameObject.SetActive(true);
         }
 
         public void SetProductObUI(GameObject productUI) => _obUI = productUI;
@@ -80,6 +73,16 @@ namespace GameShop
         public void SetActive(bool switcher)
         {
             _obUI.SetActive(switcher);
+        }
+
+        private void OnEnable()
+        {
+            if (_product != null)
+            {
+                _isPurchase.SetActive(true);
+                _purchaseMethodsBar.gameObject.SetActive(false);
+                Show(_product);
+            }
         }
     }
 }

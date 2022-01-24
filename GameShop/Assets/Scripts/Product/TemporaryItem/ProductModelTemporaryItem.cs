@@ -7,7 +7,8 @@ namespace GameShop
     {
         #region Fields
         private GameObject _ob;
-        private int _remainingTimeMin;
+        private int _secEndDate;
+        private int _remainingTime;
         private int _timeMin;
         private string _info;
         private string _name;
@@ -31,7 +32,17 @@ namespace GameShop
 
         public string GetName() => _name;
 
-        public string GetInfo() => _info + _remainingTimeMin + " min";
+        public string GetInfo()
+        {
+            DateTime currentDate = DateTime.UtcNow.ToLocalTime();
+            int sec = ConvertDateTimeToInt32(currentDate);
+            _remainingTime = _secEndDate - sec;
+            int hours = _remainingTime / 3600;
+            int minutes = _remainingTime % 3600 / 60;
+            sec = _remainingTime % 3600 % 60;
+            Debug.Log(_info + " " + hours + ":" + minutes + ":" + sec);
+            return _info + " " + hours + ":" + minutes + ":" + sec;
+        }
         public void Purchase()
         {
             _isPurchase = true;
@@ -49,6 +60,7 @@ namespace GameShop
             if (_isPurchase)
             {
                 int secEndDate = StorageControllerAntyhack.GetInt(_name + "EndTime", 0);
+                _secEndDate = secEndDate;
                 DateTime currentDate = DateTime.UtcNow.ToLocalTime();
 
                 if (secEndDate == 0)
@@ -58,7 +70,7 @@ namespace GameShop
                 }
                 int sec = ConvertDateTimeToInt32(currentDate);
                 secEndDate -= sec;
-                _remainingTimeMin = secEndDate / 60;
+                _remainingTime = secEndDate / 60;
             }
         }
 
@@ -71,6 +83,7 @@ namespace GameShop
             DateTime startDate = DateTime.UtcNow.ToLocalTime();
             sec = ConvertDateTimeToInt32(startDate);
             sec += _timeMin * 60;
+            _secEndDate = sec;
             StorageControllerAntyhack.SetInt(_name + "EndTime", sec);
         }
 
