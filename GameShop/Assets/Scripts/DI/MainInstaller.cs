@@ -9,11 +9,9 @@ public class MainInstaller : MonoInstaller
     public List<GameObject> ProductViewPrefabList;
     public CameraController CameraController;
     public GameObject NotificationBar;
-    public GameObject CurrencyViewPrefab;
     public GameObject Shop;
     public GameObject GameInstanceOb;
     public Transform Canvas;
-    public Transform MoneyBar;
     public Transform GoodsBar;
 
     public override void InstallBindings()
@@ -46,8 +44,6 @@ public class MainInstaller : MonoInstaller
     private void BindWalletController()
     {
         WalletController walletController = GameInstanceOb.GetComponent<WalletController>();
-
-        walletController.SetMoneyBar(CurrencyViewPrefab, MoneyBar);
 
         Container
             .Bind<WalletController>()
