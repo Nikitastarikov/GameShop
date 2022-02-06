@@ -27,6 +27,7 @@ namespace GameShop
                 GameInstance.Instance.WalletController.TakeAwayMoney(_name, product.GetPrice());
                 return true;
             }
+            GameInstance.Instance.NotificationController.ShowNotification("Not enough " + _name);
             return false;
         }
 

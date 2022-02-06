@@ -24,10 +24,10 @@ namespace GameShop
                 {
                     GameInstance.Instance.WalletController.AddMoney(arrayStr[i], 30);
                 }
-                Debug.Log("Luck!");
+                GameInstance.Instance.NotificationController.ShowNotification("Luck");
             }
             else
-                Debug.Log("Unluck!");
+                GameInstance.Instance.NotificationController.ShowNotification("Unluck");
         }
 
         public string[] GetCurrencyName()
