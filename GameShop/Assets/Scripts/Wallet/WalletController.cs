@@ -1,106 +1,115 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace GameShop
 {
+    /// <summary>
+    /// Контроллер кошелька, отвечает за манипуляции
+    /// над деньгами
+    /// </summary>
     public class WalletController : MonoBehaviour
     {
-        private GameObject _currencyViewPrefab;
-        private Transform _moneyBar;
-        private WalletView _walletView = new WalletView();
-        private Dictionary<string, int> _money;
+        public event Action<string> onAddCurrency = delegate { };
+        public event Action<string, int> onChangedWallet = delegate { };
 
-        public Dictionary<string, int> Money => _money;
-        public WalletController()
+        private Dictionary<string, int> _money = new Dictionary<string, int>();
+        public IReadOnlyDictionary<string, int> Money => _money;       
+        
+        /// <summary>
+        /// Запускает событие изменения значений кошелька
+        /// </summary>
+        /// <param name="name">Имя валюты</param>
+        /// <param name="amount">Количество денег</param>
+        public void OnChangeWallet(string name, int amount)
         {
-            _money = new Dictionary<string, int>();
+            onChangedWallet(name, amount);
         }
 
+        /// <summary>
+        /// Добавление новой валюты
+        /// </summary>
+        /// <param name="name">Имя валюты</param>
+        /// <param name="amount">Количество денег</param>
         public void AddCurrency(string name, int amount)
         {
-            if (!_money.ContainsKey(name))
-                _money[name] = amount;
-            else
-                _money[name] += amount;
+            _money[name] = amount;
 
-            var currencyView = Instantiate(_currencyViewPrefab, _moneyBar);
+            onAddCurrency(name);
+            OnChangeWallet(name, _money[name]);
+        }
 
-            if (currencyView.TryGetComponent(out CurrencyView view))
+        /// <summary>
+        /// Добавление денег для определенной валюты
+        /// </summary>
+        /// <param name="name">Имя валюты</param>
+        /// <param name="amount">Количество денег</param>
+        public void AddMoney(string name, int amount)
+        {
+            if (_money.ContainsKey(name))
             {
-                _walletView.GetCurrencyViewList()[name] = view;
+                _money[name] += amount;
+                OnChangeWallet(name, _money[name]);
+                SavingData();
             }
         }
 
-        public void AddMoney(string name, int amount)
-        {
-            if (!_money.ContainsKey(name))
-                _money[name] = amount;
-            else
-                _money[name] += amount;
-
-            _walletView.GetCurrencyViewList()[name].SetMoney(_money[name]);
-
-            SavingData();
-        }
-
+        /// <summary>
+        /// Вычитание денег для опеределнной валюты
+        /// </summary>
+        /// <param name="name">Имя валюты</param>
+        /// <param name="amount">Колиичество денег</param>
         public void TakeAwayMoney(string name, int amount)
         {
             if (_money.ContainsKey(name))
             {
                 _money[name] -= amount;
                 GameInstance.Instance.NotificationController.ShowNotification("Successful purchase");
-                _walletView.GetCurrencyViewList()[name].SetMoney(_money[name]);
+                OnChangeWallet(name, _money[name]);
                 SavingData();
             }
             else
+            {
                 GameInstance.Instance.NotificationController.ShowNotification("Not enough " + name);
+            }
         }
 
+        /// <summary>
+        /// Возвращает количество денег определенной валюты 
+        /// </summary>
+        /// <param name="name">Имя валюты</param>
+        /// <returns>Количества денег или -1, если нет искомой валюты</returns>
         public int GetMoney(string name)
         {
             if (_money.ContainsKey(name))
+            {
                 return _money[name];
+            }  
+            
             return -1;
         }
 
-        public void SetWalletView(WalletView walletView)
-        {
-            _walletView = walletView;
-        }
-
-        public void SetMoneyBar(GameObject currencyViewPrefab, Transform moneyBar)
-        {
-            _currencyViewPrefab = currencyViewPrefab;
-            _moneyBar = moneyBar;
-        }
-
-        [ContextMenu("LoadingWalletData")]
+        /// <summary>
+        /// Загрузка данных кошелька
+        /// </summary>
         public void LoadingData()
         {
-            string[] arrayStr = new string[_money.Count];
-            int i = 0;
-            foreach (var money in _money)
+            _money.ToList().ForEach(kv =>
             {
-                arrayStr[i] = money.Key;
-                i++;
-            }
-
-            for (i = 0; i < _money.Count; i++)
-            {
-                _money[arrayStr[i]] = StorageControllerAntyhack.GetInt(arrayStr[i], 100);
-                _walletView.GetCurrencyViewList()[arrayStr[i]].SetMoney(_money[arrayStr[i]]);
-                _walletView.GetCurrencyViewList()[arrayStr[i]].SetName(arrayStr[i]);
-                Debug.Log(arrayStr[i] + " " + _money[arrayStr[i]]);
-            }
+                _money[kv.Key] = StorageControllerAntyhack.GetInt(kv.Key, 100);
+                OnChangeWallet(kv.Key, _money[kv.Key]);
+            });
         }
 
-        [ContextMenu("SavingWalletData")]
+        /// <summary>
+        /// Сохранение данных кошелька
+        /// </summary>
         public void SavingData()
         {
             foreach (var money in _money)
             {
-                StorageControllerAntyhack.SetInt(money.Key, money.Value);
-                Debug.Log("Save " + money.Key + " = " + money.Value);
+                StorageControllerAntyhack.SetInt(money.Key, money.Value);                
             }
         }
     }

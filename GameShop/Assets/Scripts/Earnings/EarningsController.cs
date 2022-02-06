@@ -27,19 +27,23 @@ namespace GameShop
                 GameInstance.Instance.NotificationController.ShowNotification("Luck");
             }
             else
+            {
                 GameInstance.Instance.NotificationController.ShowNotification("Unluck");
+            }
         }
 
         public string[] GetCurrencyName()
         {
-            Dictionary<string, int> money = GameInstance.Instance.WalletController.Money;
+            IReadOnlyDictionary<string, int> money = GameInstance.Instance.WalletController.Money;
             string[] arrayStr = new string[money.Count];
             int i = 0;
+
             foreach (var currency in money)
             {
                 arrayStr[i] = currency.Key;
                 i++;
             }
+
             return arrayStr;
         }
     }
